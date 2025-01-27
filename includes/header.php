@@ -3,7 +3,7 @@ if (session_status() === PHP_SESSION_NONE) {
     session_start();
 }
 
-define('BASE_URL', 'http://localhost:3000');
+define('BASE_URL', 'http://localhost:3000/');
 ?>
 <!DOCTYPE html>
 <html lang="en">

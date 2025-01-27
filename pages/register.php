@@ -38,7 +38,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         logActivity($email, 'User Registered');
 
         $_SESSION['success'] = 'Registration successful!';
-        header('Location: login.php');
+        $_SESSION['show_modal'] = true;
+        header('Location: register.php');
         exit;
     } catch (Exception $e) {
         $_SESSION['error'] = $e->getMessage();
@@ -99,6 +100,32 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         <button type="submit" class="bg-blue-500 text-white py-2 px-4 rounded">Register</button>
     </form>
 </div>
+
+<!-- Success Modal  -->
+
+<div id="successModal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    <div class="bg-white p-6 rounded-lg shadow-lg w-80 relative">
+
+        <div class="flex justify-center items-center mb-4">
+            <div class="bg-green-100 rounded-full w-16 h-16 flex items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-12 w-12 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4" />
+                </svg>
+            </div>
+        </div>
+
+        <h2 class="text-xl font-bold text-center mb-2">Success</h2>
+
+        <p class="text-center text-gray-700">
+            Registration successful! Click OK to proceed to the login page.
+        </p>
+
+        <button id="modalOkButton" class="bg-blue-500 text-white py-2 px-4 rounded mt-6 w-full hover:bg-blue-600 transition">
+            OK
+        </button>
+    </div>
+</div>
+
 <?php include '../includes/footer.php'; ?>
 
 <script>
@@ -239,5 +266,17 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             const enteredDate = new Date(year, month - 1, day);
             return enteredDate <= today;
         }
+    });
+
+    // modal 
+    <?php if (isset($_SESSION['show_modal']) && $_SESSION['show_modal']): ?>
+        document.getElementById('successModal').classList.remove('hidden');
+
+        <?php unset($_SESSION['show_modal']); ?>
+    <?php endif; ?>
+
+    document.getElementById('modalOkButton').addEventListener('click', function() {
+        document.getElementById('successModal').classList.add('hidden');
+        window.location.href = 'login.php';
     });
 </script>

@@ -4,7 +4,7 @@ session_start();
 session_unset();
 session_destroy();
 
-setcookie('user', '', time() - 3600, '/');
+setcookie('user', $email, time() + (30 * 24 * 60 * 60), '/');
 
 header('Location: login.php');
 exit;
